@@ -1,0 +1,21 @@
+<h3>Logs recientes</h3>
+{% if ultimos_logs %}
+    <ul>
+    {% for log in ultimos_logs %}
+        <li><a href="/modsec/{{ log.id }}/">{{ log.date }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay logs disponibles.</p>
+{% endif %}
+
+<h3>Reglas modificadas o añadidas recientemente</h3>
+{% if reglas_recientes %}
+    <ul>
+    {% for rule in reglas_recientes %}
+        <li><a href="/modsec/{{ rule.id }}/">{{ rule.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay reglas.</p>
+{% endif %}
