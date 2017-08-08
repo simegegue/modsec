@@ -1,21 +1,65 @@
-<h3>Logs recientes</h3>
-{% if ultimos_logs %}
-    <ul>
-    {% for log in ultimos_logs %}
-        <li><a href="/modsec/{{ log.id }}/">{{ log.date }}</a></li>
-    {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modsec</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/modsec/">Modsec</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/modsec/">Home</a></li>
+      <li><a href="/modsec/rules/">Reglas</a></li>
+      <li><a href="/modsec/logs/">Registros</a></li>
+      <li><a href="/modsec/dashboard/">Panel de control</a></li>
     </ul>
-{% else %}
-    <p>No hay logs disponibles.</p>
-{% endif %}
-
-<h3>Reglas modificadas o añadidas recientemente</h3>
-{% if reglas_recientes %}
-    <ul>
-    {% for rule in reglas_recientes %}
-        <li><a href="/modsec/{{ rule.id }}/">{{ rule.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay reglas.</p>
-{% endif %}
+  
+  </div>
+</nav>
+         
+      
+<div class="container">
+	<div class="menu">
+		<table>
+			<tr>
+				<th>
+				<th>
+				<th></th>
+			</tr>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Reglas modificadas o añadidas recientemente</h3>
+				{% if reglas_recientes %}
+				    <ul>
+				    {% for rule in reglas_recientes %}
+				        <li><a href="/modsec/{{ rule.id }}/">{{ rule.name }}</a></li>
+				    {% endfor %}
+				    </ul>
+				{% else %}
+				    <p>No hay reglas.</p>
+				{% endif %}
+			</div>
+			<div class="col-sm-6">
+				<h3>Logs recientes</h3>
+				{% if ultimos_logs %}
+				    <ul>
+				    {% for log in ultimos_logs %}
+				        <li><a href="/modsec/{{ log.id }}/">{{ log.date }}</a></li>
+				    {% endfor %}
+				    </ul>
+				{% else %}
+				    <p>No hay logs disponibles.</p>
+				{% endif %}
+			</div>
+		</div>
+</div>
+</body>
+</html>

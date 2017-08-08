@@ -10,6 +10,6 @@ class Rule(models.Model):
     lastMod=models.DateTimeField(default=timezone.now)
 
 class Log(models.Model):
-    date=models.DateTimeField(blank=False,null=False)
+    date=models.CharField(max_length=200)
     atackType=models.CharField(max_length=200)
     text=models.TextField()
