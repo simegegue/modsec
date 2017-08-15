@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modsec</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/modsec/">Modsec</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/modsec/">Home</a></li>
+      <li><a href="/modsec/rules/">Reglas</a></li>
+      <li class="active"><a href="/modsec/logs/">Registros</a></li>
+      <li><a href="/modsec/dashboard/">Panel de control</a></li>
+    </ul>
+  
+  </div>
+</nav>
+<div class="container">
+  <h2>Registros</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo de ataque</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for log in registros %}
+      <tr>
+       <td>{{ log.date }}</td>
+       <td>{{ log.atackType }}</td>
+       <td><a href="/modsec/showLog/{{ log.id }}/">Mostrar</a></td>
+   {% endfor %}
+      
+       </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <span class="step-links">
+        {% if registros.has_previous %}
+            <a href="?page={{ registros.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ registros.number }} de {{ registros.paginator.num_pages }}.
+        </span>
+
+        {% if registros.has_next %}
+            <a href="?page={{ registros.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+</body>
+</html>

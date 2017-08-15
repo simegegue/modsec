@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modsec</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/modsec/">Modsec</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/modsec/">Home</a></li>
+      <li class="active"><a href="/modsec/rules/">Reglas</a></li>
+      <li><a href="/modsec/logs/">Registros</a></li>
+      <li><a href="/modsec/dashboard/">Panel de control</a></li>
+    </ul>
+  
+  </div>
+</nav>
+<div class="container">
+  <h2>Reglas activas</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Regla</th>
+        <th>Fecha de modificación</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for rule in reglas %}
+     	<tr>
+			 <td>{{ rule.name }}</td>
+			 <td>{{ rule.lastMod }}</td>
+			 <td><a href="/modsec/showRule/{{ rule.id }}/">Mostrar</a></td>
+	 {% endfor %}
+      
+       </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <span class="step-links">
+        {% if reglas.has_previous %}
+            <a href="?page={{ reglas.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ reglas.number }} de {{ reglas.paginator.num_pages }}.
+        </span>
+
+        {% if reglas.has_next %}
+            <a href="?page={{ reglas.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+</body>
+</html>
