@@ -25,6 +25,12 @@
 </nav>
 <div class="container">
   <h2>Reglas activas</h2>
+   <form id="form" method="post" action="">{% csrf_token %}
+  
+    {{form.as_p}}
+    <p><input type="submit" value="Buscar"/></p>
+  
+  </form>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -44,6 +50,8 @@
        </tr>
     </tbody>
   </table>
+ 
+
   <div class="pagination">
     <span class="step-links">
         {% if reglas.has_previous %}

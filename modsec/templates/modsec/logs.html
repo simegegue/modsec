@@ -25,6 +25,12 @@
 </nav>
 <div class="container">
   <h2>Registros</h2>
+   <form id="form" method="post" action="">{% csrf_token %}
+  
+    {{form.as_p}}
+    <p><input type="submit" value="Buscar"/></p>
+  
+  </form>
   <table class="table table-striped">
     <thead>
       <tr>

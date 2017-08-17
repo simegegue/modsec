@@ -9,7 +9,13 @@ class Rule(models.Model):
     text= models.TextField()
     lastMod=models.DateTimeField(default=timezone.now)
 
+    def __str__(self):          
+            return self.name
+
 class Log(models.Model):
     date=models.CharField(max_length=200)
     atackType=models.CharField(max_length=200)
     text=models.TextField()
+    
+    def __str__(self):              
+            return self.date
