@@ -11,7 +11,11 @@ class Rule(models.Model):
 
     def __str__(self):          
             return self.name
-
+        
+    def updateDate(self):
+        self.lastMod = timezone.now()
+        self.save()
+    
 class Log(models.Model):
     date=models.CharField(max_length=200)
     atackType=models.CharField(max_length=200)

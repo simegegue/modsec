@@ -6,3 +6,9 @@ class selectRule(forms.Form):
     
 class selectLog(forms.Form):
     logSel=forms.ModelChoiceField(queryset=Log.objects.all(),label="Elige un registro a buscar")
+    
+class ruleForm(forms.ModelForm):
+    class Meta:
+        model = Rule
+        fields=('name', 'text', )
+        exclude=['lastMod']

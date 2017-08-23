@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,redirect
 from modsec.models import Log,Rule
 from django.http import Http404
-from modsec.forms import selectRule, selectLog
+from modsec.forms import selectRule, selectLog, ruleForm
+from django.utils import timezone
+from django.template.context_processors import request
 # Create your views here.
 def index(request):
     ultimos_logs = Log.objects.order_by('-date')[:5]
@@ -121,3 +123,12 @@ def showLog(request,log_id):
         raise Http404("Log does not exist")
     return render(request, 'modsec/displayLog.html', {'log': log})
 
+def editRule(request, rule_id): 
+    rule = get_object_or_404(Rule, pk=rule_id)
+    form = ruleForm(request.POST or None, instance=rule)
+    if form.is_valid():
+        form.save()
+        rule.updateDate()
+        return redirect('showRule', rule_id)
+        
+    return render(request, 'modsec/editRule.html', {'form': form})
