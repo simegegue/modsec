@@ -16,4 +16,8 @@ urlpatterns = [
     url(r'^showLog/(?P<log_id>[0-9]+)/$', views.showLog, name='showLog'),
     #Editar una regla
     url(r'^editRule/(?P<rule_id>[0-9]+)/$', views.editRule, name='editRule'),
+    #Login
+    url(r'^login/$', views.access, name='access'),
+    
+    url(r'logout/$', views.cerrar, name='cerrar'),
     ]
