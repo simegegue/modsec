@@ -6,7 +6,6 @@ from modsec.models import Log,Rule
 from django.http import Http404
 from modsec.forms import selectRule, selectLog, ruleForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.http.response import HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
@@ -21,6 +20,7 @@ def index(request):
     aux ={'reglas_recientes': reglas_recientes,'ultimos_logs':ultimos_logs }
     
     return render(request, 'modsec/index.html', aux)
+
 '''---------------Login----------------------------------'''
 def access(request):
     if request.method=='POST':
@@ -31,16 +31,34 @@ def access(request):
             login(request, user)
             return redirect('index')
         else:
-            return redirect('modsec/notuser.html')
+            return redirect('notuser')
     else:
         form=AuthenticationForm()
         context={'form':form}
     return render(request, 'modsec/login.html',context )
+
+'''---------------LoginError----------------------------------'''
+def notuser(request):
+    if request.method=='POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return redirect('notuser')
+    else:
+        form=AuthenticationForm()
+        context={'form':form}
+    return render(request, 'modsec/notuser.html',context )
+
 '''---------------Logout----------------------------------'''
 @login_required(login_url='/modsec/login')
 def cerrar(request):
     logout(request)
     return redirect('/modsec/login')
+
 '''---------------Lista de reglas--------------------------'''
 @login_required(login_url='/modsec/login')
 def rules(request):
@@ -88,7 +106,7 @@ def rules(request):
         context={'form':form,'reglas':reglas,'rule': rule}
     return render(request, 'modsec/rules.html',context)
    
-'''Lista de registros'''
+'''---------------Lista de registros----------------------------------'''
 @login_required(login_url='/modsec/login')
 def logs(request):
     
@@ -103,7 +121,7 @@ def logs(request):
             for l in logs:
                 if str(log)==str(l):
                     registros.append(l)
-            paginator = Paginator(registros, 10) # Show 25 contacts per page
+            paginator = Paginator(registros, 10) # Show 10 contacts per page
     
             page = request.GET.get('page')
             try:
@@ -118,7 +136,7 @@ def logs(request):
             return render(request, 'modsec/logs.html',context)
     else:
         registros=Log.objects.all()
-        paginator = Paginator(registros, 10) # Show 25 contacts per page
+        paginator = Paginator(registros, 10) # Show 10 contacts per page
     
         page = request.GET.get('page')
         try:
@@ -136,7 +154,7 @@ def logs(request):
         context={'form':form,'registros':registros,'log': log}
     return render(request, 'modsec/logs.html',context)
 
-'''Mostrar regla'''
+'''---------------Mostrar regla----------------------------------'''
 @login_required(login_url='/modsec/login')
 def showRule(request,rule_id):
     try:
@@ -144,7 +162,7 @@ def showRule(request,rule_id):
     except Rule.DoesNotExist:
         raise Http404("Rule does not exist")
     return render(request, 'modsec/displayRule.html', {'rule': rule})
-'''Mostrar registro'''
+'''---------------Mostrar registro----------------------------------'''
 @login_required(login_url='/modsec/login')
 def showLog(request,log_id):
     try:
@@ -152,7 +170,7 @@ def showLog(request,log_id):
     except Log.DoesNotExist:
         raise Http404("Log does not exist")
     return render(request, 'modsec/displayLog.html', {'log': log})
-'''Editar regla'''
+'''---------------Editar regla----------------------------------'''
 @login_required(login_url='/modsec/login')
 def editRule(request, rule_id): 
     rule = get_object_or_404(Rule, pk=rule_id)
@@ -163,4 +181,13 @@ def editRule(request, rule_id):
         return redirect('showRule', rule_id)
         
     return render(request, 'modsec/editRule.html', {'form': form})
-
+@login_required(login_url='/modsec/login')
+def createRule(request):
+    if request.method=='POST':
+        form=ruleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rules')
+    else:
+        form=ruleForm()
+    return render(request,'modsec/editRule.html',{'form':form})       

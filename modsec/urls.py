@@ -18,6 +18,10 @@ urlpatterns = [
     url(r'^editRule/(?P<rule_id>[0-9]+)/$', views.editRule, name='editRule'),
     #Login
     url(r'^login/$', views.access, name='access'),
-    
+    #Logout
     url(r'logout/$', views.cerrar, name='cerrar'),
+    #Login error
+    url(r'notuser/$', views.notuser, name='notuser'),
+    #Create rule 
+    url(r'^createRule/$', views.createRule, name='createRule'), 
     ]
