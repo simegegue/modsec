@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render,get_object_or_404,redirect
-from modsec.models import Log,Rule
+from modsec.models import Log,Rule,Path
 from django.http import Http404
 from modsec.forms import selectRule, selectLog, ruleForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -181,6 +181,7 @@ def editRule(request, rule_id):
         return redirect('showRule', rule_id)
         
     return render(request, 'modsec/editRule.html', {'form': form})
+'''---------------Crear regla----------------------------------'''
 @login_required(login_url='/modsec/login')
 def createRule(request):
     if request.method=='POST':
@@ -190,4 +191,28 @@ def createRule(request):
             return redirect('rules')
     else:
         form=ruleForm()
-    return render(request,'modsec/editRule.html',{'form':form})       
+    return render(request,'modsec/editRule.html',{'form':form})   
+'''---------------Mostrar directorios--------------------------------''' 
+@login_required(login_url='/modsec/login')
+def paths(request):
+    directorios=Path.objects.all()
+    paginator = Paginator(directorios, 10)
+
+    page = request.GET.get('page')
+    try:
+        directorios = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        directorios = paginator.page(1)
+    except EmptyPage:
+    # If page is out of range (e.g. 9999), deliver last page of results.
+        directorios = paginator.page(paginator.num_pages)
+
+    
+    context={'directorios':directorios}
+    return render(request, 'modsec/conf.html',context)
+'''---------------Añadir directorio----------------------------------'''   
+
+'''---------------Editar directorio----------------------------------''' 
+
+'''---------------Eliminar directorio--------------------------------''' 

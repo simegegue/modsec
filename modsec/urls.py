@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'notuser/$', views.notuser, name='notuser'),
     #Create rule 
     url(r'^createRule/$', views.createRule, name='createRule'), 
+    #Conf
+    url(r'^conf/$', views.paths, name='paths'), 
     ]

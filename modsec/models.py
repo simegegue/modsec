@@ -24,3 +24,9 @@ class Log(models.Model):
     
     def __str__(self):              
             return self.date
+
+class Path(models.Model):
+    text=models.CharField(max_length=250)
+    
+    def __str__(self):
+            return self.text

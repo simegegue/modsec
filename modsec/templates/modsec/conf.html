@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modsec</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/modsec/">Modsec</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/modsec/">Home</a></li>
+      <li ><a href="/modsec/rules/">Reglas</a></li>
+      <li><a href="/modsec/logs/">Registros</a></li>
+      <li><a href="/modsec/dashboard/">Panel de control</a></li>
+      <li class="active"><a href="/modsec/conf/">Configuración</a></li>
+      <li><a href="/modsec/logout/">Logout</a></li>
+    </ul>
+  
+  </div>
+</nav>
+<div class="container">
+  <h2>Directorios</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Directorio</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for dir in directorios %}
+     	<tr>
+			 <td>{{ dir.text }}</td>
+	 {% endfor %}
+      
+       </tr>
+    </tbody>
+  </table>
+ 
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if directorios.has_previous %}
+            <a href="?page={{ directorios.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ directorios.number }} de {{ directorios.paginator.num_pages }}.
+        </span>
+
+        {% if directorios.has_next %}
+            <a href="?page={{ directorios.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
+ <a href="/modsec/addPath/" class="btn btn-primary" style="float:right">Añadir directorio</a>
+</div>
+</body>
+</html>
