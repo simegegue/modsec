@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render,get_object_or_404,redirect
 from modsec.models import Log,Rule,Path
 from django.http import Http404
-from modsec.forms import selectRule, selectLog, ruleForm
+from modsec.forms import selectRule, selectLog, ruleForm, pathForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -212,7 +212,16 @@ def paths(request):
     context={'directorios':directorios}
     return render(request, 'modsec/conf.html',context)
 '''---------------Añadir directorio----------------------------------'''   
-
+@login_required(login_url='/modsec/login')
+def addPath(request):
+    if request.method=='POST':
+        form=pathForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('paths')
+    else:
+        form=pathForm()
+    return render(request,'modsec/editPath.html',{'form':form})
 '''---------------Editar directorio----------------------------------''' 
 
 '''---------------Eliminar directorio--------------------------------''' 

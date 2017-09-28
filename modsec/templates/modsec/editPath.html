@@ -26,12 +26,12 @@
   </div>
 </nav>
 <div class="container">
-  <h2>Editar regla</h2>
+  <h2>Editar directorio</h2>
    <div class="col-sm-10">
-  <form method="POST" class="ruleForm">{% csrf_token %}
+  <form method="POST" class="pathForm">{% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="save btn btn-success">Guardar</button>
-            <a href="/modsec/rules/" class="cancel btn btn-warning">Cancelar</a>
+            <a href="/modsec/conf/" class="cancel btn btn-warning">Cancelar</a>
    </form>
    </div>
 </div>

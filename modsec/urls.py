@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^createRule/$', views.createRule, name='createRule'), 
     #Conf
     url(r'^conf/$', views.paths, name='paths'), 
+    #Anyadir directorio
+    url(r'^addPath/$', views.addPath, name='addPath'), 
     ]

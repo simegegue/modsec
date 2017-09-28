@@ -1,5 +1,5 @@
 from django import forms
-from models import Rule,Log
+from models import Rule,Log,Path
 
 class selectRule(forms.Form):
     ruleSel=forms.ModelChoiceField(queryset=Rule.objects.all(),label="Elige una regla a buscar")
@@ -12,3 +12,8 @@ class ruleForm(forms.ModelForm):
         model = Rule
         fields=('name', 'text', )
         exclude=['lastMod']
+        
+class pathForm(forms.ModelForm):
+    class Meta:
+        model = Path
+        fields=('text', )
