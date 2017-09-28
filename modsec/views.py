@@ -223,5 +223,18 @@ def addPath(request):
         form=pathForm()
     return render(request,'modsec/editPath.html',{'form':form})
 '''---------------Editar directorio----------------------------------''' 
+@login_required(login_url='/modsec/login')
+def editPath(request,path_id):
+    path = get_object_or_404(Path, pk=path_id)
+    form = pathForm(request.POST or None, instance=path)
+    if form.is_valid():
+        form.save()
+        return redirect('paths')
+        
+    return render(request, 'modsec/editPath.html', {'form': form})
 
 '''---------------Eliminar directorio--------------------------------''' 
+def deletePath(request,path_id):
+    Path.objects.get(pk=path_id).delete()
+    return redirect('paths')
+    

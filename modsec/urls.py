@@ -28,4 +28,8 @@ urlpatterns = [
     url(r'^conf/$', views.paths, name='paths'), 
     #Anyadir directorio
     url(r'^addPath/$', views.addPath, name='addPath'), 
+    
+    url(r'^editPath/(?P<path_id>[0-9]+)/$', views.editPath, name='editPath'),
+    
+    url(r'^deletePath/(?P<path_id>[0-9]+)/$', views.deletePath, name='deletePath'),
     ]
