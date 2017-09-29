@@ -233,8 +233,4 @@ def editPath(request,path_id):
         
     return render(request, 'modsec/editPath.html', {'form': form})
 
-'''---------------Eliminar directorio--------------------------------''' 
-def deletePath(request,path_id):
-    Path.objects.get(pk=path_id).delete()
-    return redirect('paths')
     

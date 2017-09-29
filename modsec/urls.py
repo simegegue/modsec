@@ -31,5 +31,5 @@ urlpatterns = [
     
     url(r'^editPath/(?P<path_id>[0-9]+)/$', views.editPath, name='editPath'),
     
-    url(r'^deletePath/(?P<path_id>[0-9]+)/$', views.deletePath, name='deletePath'),
+    
     ]
