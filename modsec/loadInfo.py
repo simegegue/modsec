@@ -30,7 +30,8 @@ def loadInfo():
                     lf.append(archivo)
                     rule_name = archivo
                     rule_text = datos
-                    Rule.objects.create(name=rule_name, text=rule_text)
+                    
+                    Rule.objects.create(name=rule_name, text=rule_text,path=dir1)
                 
     print("Reglas cargadas correctamente")  
     

@@ -12,7 +12,13 @@ class ruleForm(forms.ModelForm):
         model = Rule
         fields=('name', 'text', )
         exclude=['lastMod']
-        
+ 
+class createRuleForm(forms.ModelForm):
+    class Meta:
+        model = Rule
+        fields=('name', 'text','path' )
+        exclude=['lastMod']
+               
 class pathForm(forms.ModelForm):
     class Meta:
         model = Path

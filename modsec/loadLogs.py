@@ -39,7 +39,7 @@ def loadLogs():
             for d in s:
                 if "msg" in d:
                     
-                    log_atack = d[7:-2]
+                    log_atack = d[7:-1]
             log_date = s[0].strip("[,]")
             aux=""
             

@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render,get_object_or_404,redirect
 from modsec.models import Log,Rule,Path
 from django.http import Http404
-from modsec.forms import selectRule, selectLog, ruleForm, pathForm
+from modsec.forms import selectRule, selectLog, ruleForm, pathForm,createRuleForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -185,13 +185,13 @@ def editRule(request, rule_id):
 @login_required(login_url='/modsec/login')
 def createRule(request):
     if request.method=='POST':
-        form=ruleForm(request.POST)
+        form=createRuleForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('rules')
     else:
-        form=ruleForm()
-    return render(request,'modsec/editRule.html',{'form':form})   
+        form=createRuleForm()
+    return render(request,'modsec/createRule.html',{'form':form})   
 '''---------------Mostrar directorios--------------------------------''' 
 @login_required(login_url='/modsec/login')
 def paths(request):
