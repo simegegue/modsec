@@ -10,8 +10,8 @@ class selectLog(forms.Form):
 class ruleForm(forms.ModelForm):
     class Meta:
         model = Rule
-        fields=('name', 'text', )
-        exclude=['lastMod']
+        fields=('text', )
+        exclude=['lastMod','name']
  
 class createRuleForm(forms.ModelForm):
     class Meta:

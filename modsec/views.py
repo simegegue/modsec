@@ -8,6 +8,7 @@ from modsec.forms import selectRule, selectLog, ruleForm, pathForm,createRuleFor
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from modsec.edit import edit,create
 
 
 # Create your views here.
@@ -178,6 +179,7 @@ def editRule(request, rule_id):
     if form.is_valid():
         form.save()
         rule.updateDate()
+        edit(rule_id)
         return redirect('showRule', rule_id)
         
     return render(request, 'modsec/editRule.html', {'form': form})
@@ -187,8 +189,9 @@ def createRule(request):
     if request.method=='POST':
         form=createRuleForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('rules')
+            rule=form.save()
+            create(rule.id)
+            return redirect('showRule', rule.id)
     else:
         form=createRuleForm()
     return render(request,'modsec/createRule.html',{'form':form})   
