@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -22,7 +23,7 @@ class Path(models.Model):
         
 class Rule(models.Model):
     name= models.CharField(max_length=200)
-    text= models.TextField()
+    text= RichTextField(config_name='default',extra_plugins=['codesnippet'],)
     lastMod=models.DateTimeField(default=timezone.now)
     path=models.ForeignKey(Path,on_delete=models.CASCADE)
 

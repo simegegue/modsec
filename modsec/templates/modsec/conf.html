@@ -65,5 +65,45 @@
 </div>
  <a href="/modsec/addPath/" class="btn btn-primary" style="float:right">Añadir directorio</a>
 </div>
+{% if request.user.is_superuser %}
+    <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Usuarios</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for u in usuarios %}
+        <tr>
+         <td>{{u.username }}</td>
+         <td> <a href="/modsec/editUser/{{ u.id }}" class="btn btn-primary" style="float:right">Editar privilegios</a></td>
+         
+     {% endfor %}
+        
+         </tr>
+      </tbody>
+    </table>
+
+
+    <div class="pagination2">
+      <span class="step-links">
+          {% if usuarios.has_previous %}
+              <a href="?page2={{ usuarios.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          <span class="current">
+              Pagina {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}.
+          </span>
+
+          {% if usuarios.has_next %}
+              <a href="?page2={{ usuarios.next_page_number }}">Siguiente</a>
+          {% endif %}
+      </span>
+    </div>
+
+    </div>
+    {% endif %}
 </body>
 </html>

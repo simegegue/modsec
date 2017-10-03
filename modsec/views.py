@@ -9,8 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from modsec.edit import edit,create
-
-
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
@@ -198,7 +198,7 @@ def createRule(request):
 '''---------------Mostrar directorios--------------------------------''' 
 @login_required(login_url='/modsec/login')
 def paths(request):
-    directorios=Path.objects.all()
+    '''  directorios=Path.objects.all()
     paginator = Paginator(directorios, 10)
 
     page = request.GET.get('page')
@@ -213,6 +213,35 @@ def paths(request):
 
     
     context={'directorios':directorios}
+    return render(request, 'modsec/conf.html',context)'''
+    directorios=Path.objects.all()
+    usuarios=User.objects.all()
+    paginator = Paginator(directorios, 10)
+
+    page = request.GET.get('page')
+    try:
+        directorios = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        directorios = paginator.page(1)
+    except EmptyPage:
+    # If page is out of range (e.g. 9999), deliver last page of results.
+        directorios = paginator.page(paginator.num_pages)
+
+    paginator2 = Paginator(usuarios, 10)
+
+    page2 = request.GET.get('page2')
+    try:
+        usuarios = paginator2.page(page2)
+    except PageNotAnInteger:
+        # If page2 is not an integer, deliver first page.
+        usuarios = paginator2.page(1)
+    except EmptyPage:
+    # If page2 is out of range (e.g. 9999), deliver last page of results.
+        usuarios = paginator2.page(paginator2.num_pages)
+
+    
+    context={'directorios':directorios,'usuarios':usuarios}
     return render(request, 'modsec/conf.html',context)
 '''---------------Añadir directorio----------------------------------'''   
 @login_required(login_url='/modsec/login')
@@ -236,4 +265,7 @@ def editPath(request,path_id):
         
     return render(request, 'modsec/editPath.html', {'form': form})
 
+
+
+    
     
