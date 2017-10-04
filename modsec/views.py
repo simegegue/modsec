@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from modsec.edit import edit,create
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
+import os
 # Create your views here.
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
@@ -265,7 +266,15 @@ def editPath(request,path_id):
         
     return render(request, 'modsec/editPath.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_superuser)
+def deletePath(request,path_id):
+    Path.objects.get(pk=path_id).delete()
+    return redirect('paths')
 
-
-    
+@user_passes_test(lambda u: u.is_superuser)
+def deleteRule(request,rule_id):
+    rule=Rule.objects.get(pk=rule_id)
+    Rule.objects.get(pk=rule_id).delete()
+    os.remove(rule.path.text+rule.name)
+    return redirect('rules')
     

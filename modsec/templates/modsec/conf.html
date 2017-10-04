@@ -40,6 +40,9 @@
      	<tr>
 			 <td>{{ dir.text }}</td>
        <td> <a href="/modsec/editPath/{{ dir.id }}" class="btn btn-primary" style="float:right">Editar</a></td>
+       {% if request.user.is_superuser %}
+          <td> <a href="/modsec/deletePath/{{ dir.id }}" class="btn btn-danger" style="float:left">Eliminar</a></td>
+       {% endif %}
        
 	 {% endfor %}
       

@@ -46,7 +46,10 @@
      	<tr>
 			 <td>{{ rule.name }}</td>
 			 <td>{{ rule.lastMod }}</td>
-			 <td><a href="/modsec/showRule/{{ rule.id }}/">Mostrar</a></td>
+			 <td><a href="/modsec/showRule/{{ rule.id }}/" class="btn btn-primary" style="float:right">Mostrar</a></td>
+        {% if request.user.is_superuser %}
+          <td> <a href="/modsec/deleteRule/{{ rule.id }}/" class="btn btn-danger" style="float:left">Eliminar</a></td>
+       {% endif %}
 	 {% endfor %}
       
        </tr>
