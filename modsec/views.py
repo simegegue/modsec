@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from modsec.edit import edit,create
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Permission
 import os
 # Create your views here.
 '''---------------Vista principal-----------------------'''
@@ -172,6 +173,123 @@ def showLog(request,log_id):
     except Log.DoesNotExist:
         raise Http404("Log does not exist")
     return render(request, 'modsec/displayLog.html', {'log': log})
+
+@login_required(login_url='/modsec/login')
+def showPIDLog(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "PID" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logPID.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showIP(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Client" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logIP.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showFile(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "File" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logFile.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showLine(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Line" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logLine.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showMsg(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Message" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logMsg.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showMaturity(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Maturity" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logMaturity.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showAccuracy(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Accuracy" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logAccuracy.html', {'log': log, 'aux':aux})
+@login_required(login_url='/modsec/login')
+def showTag(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "Tag" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logTag.html', {'log': log, 'aux':aux})
+
+@login_required(login_url='/modsec/login')
+def showUri(request,log_id):
+    try:
+        log = Log.objects.get(pk=log_id)
+        s=log.text.split("\n")
+        aux=""
+        for i in s:
+            if "URI" in i:
+                aux=i;
+    except Log.DoesNotExist:
+        raise Http404("Log does not exist")
+    return render(request, 'modsec/logURI.html', {'log': log, 'aux':aux})
+
 '''---------------Editar regla----------------------------------'''
 @login_required(login_url='/modsec/login')
 def editRule(request, rule_id): 
@@ -278,3 +396,24 @@ def deleteRule(request,rule_id):
     os.remove(rule.path.text+rule.name)
     return redirect('rules')
     
+@user_passes_test(lambda u: u.is_superuser)
+def showPerms(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    permisos=Permission.objects.filter(user=user)
+    context={'permisos':permisos, 'user':user}
+    return render(request,'modsec/editUserPermissions.html',context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def deletePerm(request,permission_id,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    permiso=Permission.objects.get(pk=permission_id)
+    user.user_permissions.remove(permiso)
+    return redirect('showPerms',user.id)
+
+@user_passes_test(lambda u: u.is_superuser)
+def shoAllPerms(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    permisos=Permission.objects.all();
+    context={'permisos':permisos, 'user':user}
+    return render(request,'modsec/allPermissions.html',context)
+

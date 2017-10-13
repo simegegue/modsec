@@ -49,6 +49,10 @@ def loadLogs():
                 if "pid" in c:
                     c=c[5:]
                     aux=aux+"PID:"+c + "\n"
+                    
+                if "proxy:error" in c:
+                    aux=aux+"Proxy error \n"
+                    
                 if "client" in c:
                     c=c[8:]
                     aux=aux+"Client:"+c +"\n"
@@ -87,7 +91,7 @@ def loadLogs():
                 if "uri " in c:
                     c=c[5:]
                     aux=aux+"URI:"+c+"\n"
-                    print(aux)
+                   
             log_text = aux
             Log.objects.create(date=log_date,atackType=log_atack,text=log_text)
     print("Log cargado correctamente") 
