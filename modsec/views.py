@@ -400,7 +400,17 @@ def deleteRule(request,rule_id):
 def showPerms(request,user_id):
     user=get_object_or_404(User,pk=user_id)
     permisos=Permission.objects.filter(user=user)
-    context={'permisos':permisos, 'user':user}
+    todos=Permission.objects.all()
+    aux=[]
+    for i in todos:
+        aux.append(i)
+          
+    for s in aux:
+        for c in permisos:
+            if s.id == c.id :
+                aux.remove(s)       
+    context={'permisos':permisos,'aux':aux, 'user':user}
+    
     return render(request,'modsec/editUserPermissions.html',context)
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -411,9 +421,98 @@ def deletePerm(request,permission_id,user_id):
     return redirect('showPerms',user.id)
 
 @user_passes_test(lambda u: u.is_superuser)
-def shoAllPerms(request,user_id):
+def addPerm(request,user_id,permission_id):
+    user=get_object_or_404(User,pk=user_id)
+    permiso=Permission.objects.get(pk=permission_id)
+    user.user_permissions.add(permiso)
+    return redirect('showPerms',user.id)
+    
+        
+@user_passes_test(lambda u: u.is_superuser)
+def showAllPerms(request,user_id):
     user=get_object_or_404(User,pk=user_id)
     permisos=Permission.objects.all();
     context={'permisos':permisos, 'user':user}
     return render(request,'modsec/allPermissions.html',context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def makeSuperUser(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    user.is_superuser=True
+    superusuario="true"
+    user.save()
+    permisos=Permission.objects.filter(user=user)
+    todos=Permission.objects.all()
+    aux=[]
+    for i in todos:
+        aux.append(i)
+          
+    for s in aux:
+        for c in permisos:
+            if s.id == c.id :
+                aux.remove(s) 
+    context={'permisos':permisos,'aux':aux, 'user':user, "superusuario":superusuario}
+    
+    return render(request,'modsec/editUserPermissions.html',context)
+   
+
+@user_passes_test(lambda u: u.is_superuser)
+def delSuperUser(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    user.is_superuser=False
+    superusuario="false"
+    user.save()
+    permisos=Permission.objects.filter(user=user)
+    todos=Permission.objects.all()
+    aux=[]
+    for i in todos:
+        aux.append(i)
+          
+    for s in aux:
+        for c in permisos:
+            if s.id == c.id :
+                aux.remove(s) 
+    context={'permisos':permisos,'aux':aux, 'user':user, "superusuario":superusuario}
+    
+    return render(request,'modsec/editUserPermissions.html',context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def habilitar(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    user.is_active = True
+    
+    user.save()
+    permisos=Permission.objects.filter(user=user)
+    todos=Permission.objects.all()
+    aux=[]
+    for i in todos:
+        aux.append(i)
+          
+    for s in aux:
+        for c in permisos:
+            if s.id == c.id :
+                aux.remove(s) 
+    context={'permisos':permisos,'aux':aux, 'user':user}
+    
+    return render(request,'modsec/editUserPermissions.html',context)
+   
+
+@user_passes_test(lambda u: u.is_superuser)
+def deshabilitar(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    user.is_active = False
+    user.save()
+    permisos=Permission.objects.filter(user=user)
+    todos=Permission.objects.all()
+    aux=[]
+    for i in todos:
+        aux.append(i)
+          
+    for s in aux:
+        for c in permisos:
+            if s.id == c.id :
+                aux.remove(s) 
+    context={'permisos':permisos,'aux':aux, 'user':user}
+    
+    return render(request,'modsec/editUserPermissions.html',context)
 

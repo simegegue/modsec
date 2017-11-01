@@ -37,7 +37,13 @@ urlpatterns = [
     
     url(r'^editUserPermissions/(?P<user_id>[0-9]+)/$', views.showPerms, name='showPerms'),
     
-     url(r'^editUserPermissions/(?P<user_id>[0-9]+)/(?P<permission_id>[0-9]+)', views.deletePerm, name='deletePerm'),
+    #url(r'^addPerm/*', views.addPerm, name='addPerm'),
+    
+     
+     
+    url(r'^editUserPermissions/(?P<user_id>[0-9]+)/(?P<permission_id>[0-9]+)', views.deletePerm, name='deletePerm'),
+     
+    url(r'^addPermissions/(?P<user_id>[0-9]+)/(?P<permission_id>[0-9]+)', views.addPerm, name='addPerm'),
     
     url(r'^logPID/(?P<log_id>[0-9]+)/$', views.showPIDLog, name='showPIDLog'),
     
@@ -56,4 +62,12 @@ urlpatterns = [
     url(r'^logTag/(?P<log_id>[0-9]+)/$', views.showTag, name='showTag'),
     
     url(r'^logURI/(?P<log_id>[0-9]+)/$', views.showUri, name='showUri'),
+    
+     url(r'^delSuperUser/(?P<user_id>[0-9]+)/$', views.delSuperUser, name='delSuperUser'),
+     
+     url(r'^makeSuperUser/(?P<user_id>[0-9]+)/$', views.makeSuperUser, name='makeSuperUser'),
+     
+      url(r'^activate/(?P<user_id>[0-9]+)/$', views.habilitar, name='habilitar'),
+     
+     url(r'^deactivate/(?P<user_id>[0-9]+)/$', views.deshabilitar, name='deshabilitar'),
     ]
