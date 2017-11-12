@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render,get_object_or_404,redirect
-from modsec.models import Log,Rule,Path
+from modsec.models import Log,Rule,Path, Category
 from django.http import Http404
 from modsec.forms import selectRule, selectLog, ruleForm, pathForm,createRuleForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -515,4 +515,16 @@ def deshabilitar(request,user_id):
     context={'permisos':permisos,'aux':aux, 'user':user}
     
     return render(request,'modsec/editUserPermissions.html',context)
-
+@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='/modsec/login')
+def dashboard(request,user_id):
+    logs=Log.objects.all()
+    cats=Category.objects.all()
+    for l in logs:
+        for c in cats:
+            if l.attackType in c.text:
+                c.cont=c.cont+1
+                c.save()
+    act=Category.objects.all()
+    print(act.name)
+    print(act.text)

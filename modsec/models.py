@@ -6,7 +6,13 @@ from django.utils import timezone
 from ckeditor.fields import RichTextField
 
 # Create your models here.
-
+class Category(models.Model):
+    name=models.CharField(max_length=500)
+    text=models.TextField()
+    cont=models.IntegerField(default=0)
+    def __str__(self):              
+            return self.name
+        
 class Log(models.Model):
     date=models.CharField(max_length=200)
     atackType=models.CharField(max_length=200)

@@ -5,11 +5,12 @@ sys.path.append("/home/nomis/tfg-workspace/modsec")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'TFG.settings'
 
 django.setup()
-from modsec.models import Rule, Log
+from modsec.models import Rule, Log,Category
 
 def delete_everything():
     Rule.objects.all().delete()
     Log.objects.all().delete()
+    Category.objects.all().delete()
 
 if __name__ == '__main__':
     delete_everything()
