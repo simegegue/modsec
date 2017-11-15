@@ -10,8 +10,16 @@ class Category(models.Model):
     name=models.CharField(max_length=500)
     text=models.TextField()
     cont=models.IntegerField(default=0)
+   
     def __str__(self):              
             return self.name
+    def count(self):
+        self.cont = self.cont+1
+        self.save()
+        
+    def reset(self):
+        self.cont = 0
+        self.save()
         
 class Log(models.Model):
     date=models.CharField(max_length=200)

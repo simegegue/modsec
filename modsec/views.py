@@ -517,14 +517,31 @@ def deshabilitar(request,user_id):
     return render(request,'modsec/editUserPermissions.html',context)
 @user_passes_test(lambda u: u.is_superuser)
 @login_required(login_url='/modsec/login')
-def dashboard(request,user_id):
+def dashboard(request):
     logs=Log.objects.all()
     cats=Category.objects.all()
+    for ca in cats:
+        ca.reset()
     for l in logs:
         for c in cats:
-            if l.attackType in c.text:
-                c.cont=c.cont+1
-                c.save()
+            if len(l.atackType)>1 and l.atackType in c.text:
+                print("Atack:"+l.atackType)
+                print(c.text)
+                c.count()
+                
+                
     act=Category.objects.all()
-    print(act.name)
-    print(act.text)
+    for i in act:
+        print(i.name)
+        print(i.text)
+        print(i.cont)
+    list=Category.objects.all()
+    res="["
+    for p in list:
+        res=res+"{"+"label:\""+p.name+"\",value:\""+str(p.cont)+"\"},"
+    
+    res=res[:-1]
+    res=res+"];"
+    print(res)
+    context={"res":res}
+    return render(request, 'modsec/dashboard.html',context)

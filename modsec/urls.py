@@ -70,4 +70,6 @@ urlpatterns = [
       url(r'^activate/(?P<user_id>[0-9]+)/$', views.habilitar, name='habilitar'),
      
      url(r'^deactivate/(?P<user_id>[0-9]+)/$', views.deshabilitar, name='deshabilitar'),
+     
+      url(r'dashboard/$', views.dashboard, name='dashboard'),
     ]

@@ -1,5 +1,6 @@
 import django
 import sys, os
+
 from django.template.defaultfilters import length
 sys.path.append("/home/nomis/tfg-workspace/modsec")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'TFG.settings'
@@ -69,15 +70,29 @@ def loadCategory():
 def prueba():
     logs=Log.objects.all()
     cats=Category.objects.all()
+    for ca in cats:
+        ca.reset()
     for l in logs:
         for c in cats:
-            if l.attackType in c.text:
-                c.cont=c.cont+1
-                c.save()
+            if len(l.atackType)>1 and l.atackType in c.text:
+                print("Atack:"+l.atackType)
+                print(c.text)
+                c.count()
+                
+                
     act=Category.objects.all()
     for i in act:
         print(i.name)
         print(i.text)
+        print(i.cont)
+    list=Category.objects.all()
+    aux=[]
+    res="["
+    for p in list:
+        res=res+"{"+"label:\""+p.name+"\",value:\""+str(p.cont)+"\"},"
+    
+    res=res[:-1]
+    res=res+"];"
+    print(res)
 if __name__ == '__main__':
-    loadCategory()
-   
+    prueba()   
