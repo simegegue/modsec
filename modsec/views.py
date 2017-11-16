@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Permission
 import os
+import datetime
 # Create your views here.
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
@@ -515,19 +516,22 @@ def deshabilitar(request,user_id):
     context={'permisos':permisos,'aux':aux, 'user':user}
     
     return render(request,'modsec/editUserPermissions.html',context)
+
+        
+
 @user_passes_test(lambda u: u.is_superuser)
 @login_required(login_url='/modsec/login')
 def dashboard(request):
     logs=Log.objects.all()
     cats=Category.objects.all()
+    contador=0
     for ca in cats:
         ca.reset()
     for l in logs:
         for c in cats:
             if len(l.atackType)>1 and l.atackType in c.text:
-                print("Atack:"+l.atackType)
-                print(c.text)
                 c.count()
+                contador=contador+1
                 
                 
     act=Category.objects.all()
@@ -537,11 +541,60 @@ def dashboard(request):
         print(i.cont)
     list=Category.objects.all()
     res="["
+    
     for p in list:
-        res=res+"{"+"label:\""+p.name+"\",value:\""+str(p.cont)+"\"},"
+        if p.cont>0:
+            por=p.cont/contador
+            res=res+"{"+"label:\""+p.name+"\",value:\""+str(por)+"\"},"
     
     res=res[:-1]
     res=res+"];"
+    ultimos_logs = Log.objects.order_by('-date')[:10]
+    context={"res":res,"ultimos_logs":ultimos_logs}
+    return render(request, 'modsec/dashboard.html',context)
+@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='/modsec/login')
+def dashboard2(request):
+    logs=Log.objects.all()
+    mes=""
+    dia=""
+    anyo=""
+    esprimero=True
+    fecha=""
+    cont=0
+    listCont=[]
+    listFecha=[]
+    res="" 
+    for l in logs:
+        mes=l.date
+        mes=mes[4:7]
+        dia=l.date
+        dia=dia[9:11]
+        anyo=l.date
+        anyo=anyo[-4:]
+        datetime_object = datetime.datetime.strptime(mes+' '+dia+' '+anyo, '%b %d %Y')
+        c=int(datetime_object.strftime("%s")) * 1000 
+        
+        if esprimero==True:
+            fecha=c
+            esprimero=False
+           
+            
+        if c==fecha:
+            cont=cont+1
+        else:
+            listFecha.append(fecha)
+            listCont.append(cont)
+            fecha=c
+            cont=1
+    listFecha.append(fecha)
+    listCont.append(cont)
+    for i in range(len(listCont)):
+        res=res+"["+str(listFecha[i])+","+str(listCont[i])+"],"
+    res=res[:-1]
+    
+    
     print(res)
     context={"res":res}
-    return render(request, 'modsec/dashboard.html',context)
+    return render(request, 'modsec/dashboard2.html',context)
+

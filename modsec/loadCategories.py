@@ -95,4 +95,4 @@ def prueba():
     res=res+"];"
     print(res)
 if __name__ == '__main__':
-    prueba()   
+    loadCategory()()   
