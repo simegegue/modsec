@@ -29,8 +29,14 @@
   </div>
 </nav>
 <div class="container">
-  <h2>Editar regla</h2>
+  <h3>Editar regla</h3>
    <div class="col-sm-10">
+   <style>
+   #id_text {
+    width: 800px;
+    height: 500px;
+}
+</style>
   <form method="POST" class="ruleForm">{% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="save btn btn-success">Guardar</button>

@@ -37,10 +37,6 @@ urlpatterns = [
     
     url(r'^editUserPermissions/(?P<user_id>[0-9]+)/$', views.showPerms, name='showPerms'),
     
-    #url(r'^addPerm/*', views.addPerm, name='addPerm'),
-    
-     
-     
     url(r'^editUserPermissions/(?P<user_id>[0-9]+)/(?P<permission_id>[0-9]+)', views.deletePerm, name='deletePerm'),
      
     url(r'^addPermissions/(?P<user_id>[0-9]+)/(?P<permission_id>[0-9]+)', views.addPerm, name='addPerm'),
@@ -71,6 +67,10 @@ urlpatterns = [
      
      url(r'^deactivate/(?P<user_id>[0-9]+)/$', views.deshabilitar, name='deshabilitar'),
      
-      url(r'dashboard/$', views.dashboard, name='dashboard'),
-      url(r'dashboard2/$', views.dashboard2, name='dashboard2'),
+     url(r'dashboard/$', views.dashboard, name='dashboard'),
+     
+     url(r'loadRules/$', views.loadRules, name='loadRules'),
+     
+     url(r'loadLogs/$', views.loadRegs, name='loadRegs'),
+     
     ]

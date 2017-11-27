@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
   <title>Modsec</title>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -29,8 +31,13 @@
       <div class="col-sm-10">
         <h3>Nombre: {{rule.name}}</h3>
          <h3> Contenido:</h3>
-          <textarea name="text" id="id_text" required="" rows="30" cols="80" class="vLargeTextField" readonly resize="none">{{rule.text}}
-          </textarea>
+         
+          <pre class="code" style="height: auto;max-height: 500px;overflow: auto;background-color: #eeeeee;word-break: normal !important;
+    word-wrap: normal !important;
+    white-space: pre !important;
+  
+">{{rule.text}}</pre>
+
            <div align="left">
   <a href="/modsec/editRule/{{ rule.id }}" class="btn btn-info">Editar</a>
 </div>

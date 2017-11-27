@@ -26,7 +26,7 @@
   </div>
 </nav>
 <div class="container">
-  <h2>Reglas activas</h2>
+  <h3>Reglas activas</h3>
    <form id="form" method="post" action="">{% csrf_token %}
   
     {{form.as_p}}
@@ -73,6 +73,9 @@
     </span>
 </div>
  <a href="/modsec/createRule/" class="btn btn-primary" style="float:right">Crear regla</a>
+ {% if request.user.is_superuser %}
+ <a href="/modsec/loadRules/" class="btn btn-primary" style="float:right; margin-right:1%;">Cargar reglas</a>
+ {% endif %}
 </div>
 </body>
 </html>

@@ -9,11 +9,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from modsec.edit import edit,create
+from modsec.loadInfo import loadInfo
+from modsec.loadLogs import loadLogs
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Permission
 import os
 import datetime
+import subprocess
+import sys
 # Create your views here.
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
@@ -517,7 +521,8 @@ def deshabilitar(request,user_id):
     
     return render(request,'modsec/editUserPermissions.html',context)
 
-        
+
+  
 
 @user_passes_test(lambda u: u.is_superuser)
 @login_required(login_url='/modsec/login')
@@ -554,47 +559,14 @@ def dashboard(request):
     return render(request, 'modsec/dashboard.html',context)
 @user_passes_test(lambda u: u.is_superuser)
 @login_required(login_url='/modsec/login')
-def dashboard2(request):
-    logs=Log.objects.all()
-    mes=""
-    dia=""
-    anyo=""
-    esprimero=True
-    fecha=""
-    cont=0
-    listCont=[]
-    listFecha=[]
-    res="" 
-    for l in logs:
-        mes=l.date
-        mes=mes[4:7]
-        dia=l.date
-        dia=dia[9:11]
-        anyo=l.date
-        anyo=anyo[-4:]
-        datetime_object = datetime.datetime.strptime(mes+' '+dia+' '+anyo, '%b %d %Y')
-        c=int(datetime_object.strftime("%s")) * 1000 
-        
-        if esprimero==True:
-            fecha=c
-            esprimero=False
-           
-            
-        if c==fecha:
-            cont=cont+1
-        else:
-            listFecha.append(fecha)
-            listCont.append(cont)
-            fecha=c
-            cont=1
-    listFecha.append(fecha)
-    listCont.append(cont)
-    for i in range(len(listCont)):
-        res=res+"["+str(listFecha[i])+","+str(listCont[i])+"],"
-    res=res[:-1]
-    
-    
-    print(res)
-    context={"res":res}
-    return render(request, 'modsec/dashboard2.html',context)
+def loadRules(request):
+    loadInfo()
+    return redirect('rules')
 
+@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='/modsec/login')
+def loadRegs(request):
+    lp = subprocess.Popen([sys.executable, 'modsec/loadLogs.py'], 
+                                    stdout=subprocess.PIPE, 
+                                    stderr=subprocess.STDOUT)
+    return redirect('logs')

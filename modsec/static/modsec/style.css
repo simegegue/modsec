@@ -31,6 +31,22 @@ tbody td, thead th {
     width: 50%;
     float: left;
 }
+pre {
+  background: #eee;
+  counter-reset: section; /* Reset the counter to 0 for each new pre */
+}
+pre span:before {
+  counter-increment: section; /* Increment the section counter*/
+  content: counter(section); /* Display the counter */
+  padding: 0 5px;
+  border-right: 1px solid #777;
+  margin-right: 5px;
+  color: #777
+}
+
+pre.code-jquery span {
+  color: green;
+}​
 /* nvd3 version 1.8.1 (https://github.com/novus/nvd3) 2015-06-15 */
 .nvd3 .nv-axis {
     pointer-events:none;

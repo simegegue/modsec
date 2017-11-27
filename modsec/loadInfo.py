@@ -38,5 +38,5 @@ def loadInfo():
 
     
 if __name__ == '__main__':
-   loadInfo()
+    loadInfo()
    
