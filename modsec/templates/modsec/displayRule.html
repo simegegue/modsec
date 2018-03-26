@@ -20,7 +20,9 @@
       <li><a href="/modsec/">Home</a></li>
       <li><a href="/modsec/rules/">Reglas</a></li>
       <li><a href="/modsec/logs/">Registros</a></li>
+       {% if request.user.is_superuser %}
       <li><a href="/modsec/dashboard/">Panel de control</a></li>
+      {% endif %}
       <li><a href="/modsec/conf/">Configuración</a></li>
       <li><a href="/modsec/logout/">Logout</a></li>
     </ul>
