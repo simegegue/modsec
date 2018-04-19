@@ -22,7 +22,7 @@ import sys
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
 def index(request):
-    ultimos_logs = Log.objects.order_by('-date')[:5]
+    ultimos_logs = Log.objects.order_by('-dCreation')[:5]
     
     reglas_recientes= Rule.objects.order_by('-lastMod')[:5]
     aux ={'reglas_recientes': reglas_recientes,'ultimos_logs':ultimos_logs }

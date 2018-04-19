@@ -25,7 +25,7 @@ class Log(models.Model):
     date=models.CharField(max_length=200)
     atackType=models.CharField(max_length=200)
     text=models.TextField()
-    
+    dCreation=models.DateTimeField(default=timezone.now)
     def __str__(self):              
             return self.date
 

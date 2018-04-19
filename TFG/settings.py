@@ -25,7 +25,7 @@ SECRET_KEY = 'ird3!7&unahp)fh!&+=#y6jfo_o1u8rk5fkyg*a$b(g=zsr&9x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','www.modsec.com']
 
 
 # Application definition
@@ -122,7 +122,9 @@ LOGIN_REDIRECT_URL='/modsec'
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+STATIC_ROOT ='/home/nomis/modsec/static/'
 
 
 

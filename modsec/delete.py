@@ -1,7 +1,7 @@
 import django
 import sys, os
 from django.template.defaultfilters import length
-sys.path.append("/home/nomis/tfg-workspace/modsec")
+sys.path.append("/home/nomis/modsec")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'TFG.settings'
 
 django.setup()
