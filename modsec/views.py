@@ -18,7 +18,7 @@ import os
 import datetime
 import subprocess
 import sys
-# Create your views here.
+
 '''---------------Vista principal-----------------------'''
 @login_required(login_url='/modsec/login')
 def index(request):
@@ -81,16 +81,16 @@ def rules(request):
             for r in rules:
                 if str(rule)==str(r):
                     reglas.append(r)
-            paginator = Paginator(reglas, 10) # Show 25 contacts per page
+            paginator = Paginator(reglas, 10) # Mostrar 10 reglas por pagina
     
             page = request.GET.get('page')
             try:
                 reglas = paginator.page(page)
             except PageNotAnInteger:
-                # If page is not an integer, deliver first page.
+                # Si la pagina indicada no es un entero se redirige a la primera pagina
                 reglas = paginator.page(1)
             except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
+            # si la pagina esta fuera de rango se redirige a la ultima pagina
                 reglas = paginator.page(paginator.num_pages)
             context={'form':form,'reglas':reglas,'rule': rule}
             return render(request, 'modsec/rules.html',context)
@@ -98,16 +98,16 @@ def rules(request):
     
     else:
         reglas=Rule.objects.all()
-        paginator = Paginator(reglas, 10) # Show 25 contacts per page
+        paginator = Paginator(reglas, 10) 
     
         page = request.GET.get('page')
         try:
             reglas = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
+         
             reglas = paginator.page(1)
         except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
+      
             reglas = paginator.page(paginator.num_pages)
 
         form = selectRule()
@@ -124,36 +124,34 @@ def logs(request):
         form = selectLog(request.POST)
         if form.is_valid():
             log=form.cleaned_data['logSel']
-            logs=Log.objects.all()
+            logs=Log.objects.order_by('-dCreation')
             registros=[]
             for l in logs:
                 if str(log)==str(l):
                     registros.append(l)
-            paginator = Paginator(registros, 10) # Show 10 contacts per page
+            paginator = Paginator(registros, 10) # Mostrar 10 registros por pagina
     
             page = request.GET.get('page')
             try:
                 registros = paginator.page(page)
             except PageNotAnInteger:
-                # If page is not an integer, deliver first page.
+                # Si la pagina indicada no es un entero se redirige a la primera pagina
                 registros = paginator.page(1)
             except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
+            # si la pagina esta fuera de rango se redirige a la ultima pagina
                 registros = paginator.page(paginator.num_pages)
             context={'form':form,'registros':registros,'log': log}
             return render(request, 'modsec/logs.html',context)
     else:
-        registros=Log.objects.all()
-        paginator = Paginator(registros, 10) # Show 10 contacts per page
+        registros=Log.objects.order_by('-dCreation')
+        paginator = Paginator(registros, 10) 
     
         page = request.GET.get('page')
         try:
             registros = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             registros = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
             registros = paginator.page(paginator.num_pages)
 
     
@@ -346,10 +344,8 @@ def paths(request):
     try:
         directorios = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         directorios = paginator.page(1)
     except EmptyPage:
-    # If page is out of range (e.g. 9999), deliver last page of results.
         directorios = paginator.page(paginator.num_pages)
 
     paginator2 = Paginator(usuarios, 10)
@@ -358,10 +354,8 @@ def paths(request):
     try:
         usuarios = paginator2.page(page2)
     except PageNotAnInteger:
-        # If page2 is not an integer, deliver first page.
         usuarios = paginator2.page(1)
     except EmptyPage:
-    # If page2 is out of range (e.g. 9999), deliver last page of results.
         usuarios = paginator2.page(paginator2.num_pages)
 
     

@@ -5,7 +5,7 @@ class selectRule(forms.Form):
     ruleSel=forms.ModelChoiceField(queryset=Rule.objects.all(),label="Elige una regla a buscar")
     
 class selectLog(forms.Form):
-    logSel=forms.ModelChoiceField(queryset=Log.objects.all(),label="Elige un registro a buscar")
+    logSel=forms.ModelChoiceField(queryset=Log.objects.order_by('-dCreation'),label="Elige un registro a buscar")
     
 class ruleForm(forms.ModelForm):
     class Meta:
