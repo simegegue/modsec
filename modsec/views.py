@@ -543,6 +543,7 @@ def dashboard(request):
     
     for p in list:
         if p.cont>0:
+	    contador=contador+0.0
             por=p.cont/contador
             res=res+"{"+"label:\""+p.name+"\",value:\""+str(por)+"\"},"
     
